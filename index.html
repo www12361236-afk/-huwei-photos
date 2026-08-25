@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>虎尾製造所｜虎尾時光照相館</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EDDC;
+    --paper-deep:#EADFC3;
+    --card:#FBF7EC;
+    --ink:#3B2A20;
+    --ink-soft:#6B5644;
+    --brick:#AE4630;
+    --brick-deep:#8C3624;
+    --gold:#C79A44;
+    --gold-soft:#E7CD8C;
+    --line: rgba(59,42,32,0.16);
+    --shadow: 0 6px 18px rgba(59,42,32,0.14);
+    --radius: 14px;
+    --maxw: 560px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(rgba(59,42,32,0.035) 1px, transparent 1px);
+    background-size: 3px 3px;
+    color:var(--ink);
+    font-family:'Noto Sans TC', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding-bottom:86px;
+  }
+  h1,h2,h3,.serif{ font-family:'Noto Serif TC', serif; }
+  a{color:inherit;}
+  button{font-family:inherit;}
+  img{max-width:100%; display:block;}
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 20px; }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    padding:18px 20px 14px;
+    max-width:var(--maxw);
+    margin:0 auto;
+    display:flex; align-items:center; gap:10px;
+  }
+  .topbar .mark{
+    width:34px;height:34px;border-radius:50%;
+    border:1.5px solid var(--brick);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--brick); font-family:'Noto Serif TC',serif; font-weight:900; font-size:15px;
+    flex:none;
+  }
+  .topbar .name{
+    font-family:'Noto Serif TC', serif; font-weight:700; font-size:15px; letter-spacing:0.03em;
+    color:var(--ink);
+  }
+  .topbar .name small{ display:block; font-family:'Noto Sans TC',sans-serif; font-weight:400; font-size:11px; color:var(--ink-soft); letter-spacing:0.08em; }
+
+  /* ---------- Bottom nav ---------- */
+  .bottomnav{
+    position:fixed; left:0; right:0; bottom:0; z-index:50;
+    background:var(--paper-deep);
+    border-top:1px solid var(--line);
+    display:flex;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .bottomnav button{
+    flex:1; background:none; border:none; padding:11px 4px 9px;
+    color:var(--ink-soft); font-size:12.5px; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bottomnav button svg{ width:21px; height:21px; }
+  .bottomnav button.active{ color:var(--brick); font-weight:700; }
+  .bottomnav button:focus-visible{ outline:2px solid var(--brick); outline-offset:2px; border-radius:6px; }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:14px 22px; border-radius:999px; border:none; cursor:pointer;
+    font-size:15.5px; font-weight:700; font-family:'Noto Sans TC',sans-serif;
+    min-height:48px; width:100%;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .12s ease, opacity .12s ease;
+  }
+  .btn:active{ transform:scale(0.98); }
+  .btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .btn-primary{ background:var(--brick); color:#FBF3E4; box-shadow: var(--shadow); }
+  .btn-primary:disabled{ opacity:.55; cursor:not-allowed; }
+  .btn-secondary{ background:transparent; color:var(--ink); border:1.5px solid var(--ink); }
+  .btn-ghost{ background:var(--paper-deep); color:var(--ink); }
+
+  /* ---------- Hero ---------- */
+  .hero{ padding:8px 0 30px; }
+  .hero .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; letter-spacing:0.18em; color:var(--brick); font-weight:700;
+    margin-bottom:14px;
+  }
+  .hero .eyebrow::before{ content:''; width:16px; height:1px; background:var(--brick); }
+  .hero h1{
+    font-size:29px; line-height:1.42; font-weight:900; margin:0 0 14px; color:var(--ink);
+  }
+  .hero .sub{ font-size:15px; line-height:1.85; color:var(--ink-soft); margin:0 0 26px; }
+  .hero .ctas{ display:flex; flex-direction:column; gap:12px; margin-bottom:8px; }
+
+  .filmband{
+    height:22px; margin: 26px -20px 26px;
+    background-image: repeating-linear-gradient(90deg, var(--ink) 0 10px, transparent 10px 20px);
+    background-position: center;
+    background-repeat: repeat-x;
+    background-size: 20px 6px;
+    opacity:.18;
+  }
+
+  /* ---------- Process steps ---------- */
+  .steps{ display:flex; flex-direction:column; gap:0; margin: 6px 0 30px; }
+  .step{ display:flex; gap:14px; padding: 14px 0; border-bottom:1px dashed var(--line); }
+  .step:last-child{ border-bottom:none; }
+  .step .num{
+    flex:none; width:30px; height:30px; border-radius:50%;
+    border:1.5px solid var(--gold); color:var(--brick-deep);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Noto Serif TC',serif; font-weight:700; font-size:13px;
+  }
+  .step .txt strong{ display:block; font-size:14.5px; }
+  .step .txt span{ font-size:12.5px; color:var(--ink-soft); }
+
+  .section-title{
+    font-size:13px; letter-spacing:0.14em; color:var(--ink-soft); font-weight:700;
+    margin: 0 0 14px; text-transform:none;
+  }
+
+  /* ---------- Cards / paper ---------- */
+  .paper-card{
+    background:var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border:1px solid rgba(59,42,32,0.08);
+    padding:18px;
+  }
+
+  /* ---------- Form ---------- */
+  .field{ margin-bottom:20px; }
+  .field label{ display:block; font-size:14px; font-weight:700; margin-bottom:6px; }
+  .field label .req{ color:var(--brick); margin-left:2px; }
+  .field .hint{ font-size:12px; color:var(--ink-soft); margin: 4px 0 8px; line-height:1.6; }
+  .field input[type=text], .field input[type=date], .field textarea, .field select{
+    width:100%; border:1.5px solid var(--line); background:#fff;
+    border-radius:10px; padding:12px 13px; font-size:15px; color:var(--ink);
+    font-family:inherit;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus{ outline:2px solid var(--brick); outline-offset:1px; border-color:var(--brick); }
+  .field textarea{ resize:vertical; min-height:74px; }
+  .counter{ text-align:right; font-size:11.5px; color:var(--ink-soft); margin-top:4px; }
+  .counter.over{ color:var(--brick); font-weight:700; }
+  .date-row{ display:flex; gap:8px; }
+  .date-row input[type=text]{ flex:1; }
+  .icon-btn{
+    flex:none; width:46px; height:46px; border-radius:10px; border:1.5px solid var(--line);
+    background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .hidden-date{ position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
+
+  .upload-slot{
+    border:1.5px dashed var(--gold); border-radius: var(--radius);
+    background: var(--paper-deep);
+    padding:18px; text-align:center; cursor:pointer; position:relative;
+  }
+  .upload-slot input[type=file]{ position:absolute; inset:0; opacity:0; cursor:pointer; }
+  .upload-slot .stamp{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:40px;height:40px;border-radius:50%; border:1.5px solid var(--brick); color:var(--brick);
+    font-family:'Noto Serif TC',serif; font-weight:900; font-size:14px;
+    margin-bottom:10px; transform:rotate(-6deg);
+  }
+  .upload-slot p{ margin:0; font-size:13px; color:var(--ink-soft); }
+  .upload-slot p.title{ font-size:14.5px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .preview-wrap{ position:relative; border-radius:var(--radius); overflow:hidden; }
+  .preview-wrap img{ width:100%; aspect-ratio:4/3; object-fit:cover; }
+  .preview-wrap .tag{
+    position:absolute; top:10px; left:10px;
+    background:var(--brick); color:#fff; font-family:'Noto Serif TC',serif; font-weight:700;
+    font-size:12.5px; padding:4px 11px; border-radius:999px; letter-spacing:0.05em;
+    box-shadow:0 2px 6px rgba(0,0,0,0.25);
+  }
+  .preview-wrap .replace{
+    position:absolute; bottom:10px; right:10px; background:rgba(59,42,32,0.72); color:#fff;
+    border:none; border-radius:999px; padding:7px 13px; font-size:12px; cursor:pointer;
+  }
+  .preview-wrap .replace input[type=file]{ position:absolute; inset:0; opacity:0; cursor:pointer; }
+
+  .checkbox-row{ display:flex; gap:12px; align-items:flex-start; background:var(--paper-deep); border-radius:12px; padding:14px; }
+  .checkbox-row input{ flex:none; width:20px; height:20px; margin-top:2px; accent-color:var(--brick); }
+  .checkbox-row p{ margin:0; font-size:12.5px; line-height:1.7; color:var(--ink-soft); }
+
+  .error-text{ color:var(--brick-deep); font-size:12.5px; margin-top:6px; display:none; font-weight:700; }
+  .field.invalid input, .field.invalid textarea{ border-color:var(--brick-deep); }
+  .field.invalid .error-text{ display:block; }
+
+  .banner{ border-radius:12px; padding:13px 15px; font-size:13.5px; margin-bottom:18px; display:none; line-height:1.6; }
+  .banner.show{ display:block; }
+  .banner.err{ background:#F6DCD3; color:var(--brick-deep); }
+  .banner.ok{ background:#E4EDD9; color:#3E5A2A; }
+  .banner.info{ background:var(--paper-deep); color:var(--ink-soft); }
+
+  /* ---------- Preview modal ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(30,20,14,0.6); z-index:200;
+    display:flex; align-items:flex-end; justify-content:center;
+  }
+  .modal-sheet{
+    background:var(--paper); width:100%; max-width:var(--maxw); border-radius:20px 20px 0 0;
+    max-height:88vh; overflow-y:auto; padding:22px 20px calc(22px + env(safe-area-inset-bottom,0px));
+  }
+  .modal-sheet h2{ font-size:19px; margin:0 0 4px; }
+  .modal-sheet .sub{ font-size:12.5px; color:var(--ink-soft); margin:0 0 18px; }
+  .review-photos{ display:flex; gap:10px; margin-bottom:16px; }
+  .review-photos .ph{ flex:1; position:relative; border-radius:10px; overflow:hidden; }
+  .review-photos img{ width:100%; aspect-ratio:1/1; object-fit:cover; }
+  .review-photos .tag{ position:absolute; top:6px; left:6px; background:var(--brick); color:#fff; font-size:11px; padding:2px 8px; border-radius:999px; font-family:'Noto Serif TC',serif; }
+  .review-list{ list-style:none; margin:0 0 20px; padding:0; }
+  .review-list li{ display:flex; justify-content:space-between; gap:14px; padding:9px 0; border-bottom:1px solid var(--line); font-size:13.5px; }
+  .review-list li span:first-child{ color:var(--ink-soft); flex:none; }
+  .review-list li span:last-child{ text-align:right; }
+  .modal-actions{ display:flex; flex-direction:column; gap:10px; }
+
+  /* ---------- Gallery ---------- */
+  .filters{ display:flex; gap:8px; margin-bottom:18px; overflow-x:auto; padding-bottom:2px; }
+  .filters select{
+    border:1.5px solid var(--line); border-radius:999px; padding:8px 12px; font-size:13px;
+    background:#fff; color:var(--ink); font-family:inherit;
+  }
+  .gallery-grid{ display:flex; flex-direction:column; gap:18px; }
+  .gcard{
+    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+    overflow:hidden; border:1px solid rgba(59,42,32,0.08); cursor:pointer;
+  }
+  .compare{ position:relative; width:100%; height:0; padding-top:75%; overflow:hidden; touch-action:none; background:var(--paper-deep); cursor:ew-resize; }
+  .compare:focus-visible{ outline:2px solid var(--brick); outline-offset:2px; }
+  .compare img{ position:absolute; top:0; left:0; right:0; bottom:0; width:100%; height:100%; object-fit:cover; }
+  .compare .after{ position:absolute; top:0; left:0; right:0; bottom:0; width:100%; height:100%; clip-path: inset(0 0 0 50%); }
+  .compare .divider{
+    position:absolute; top:0; bottom:0; left:50%; width:0; z-index:3; pointer-events:none;
+  }
+  .compare .divider::before{ content:''; position:absolute; top:0; bottom:0; left:-1px; width:2px; background:#fff; box-shadow:0 0 6px rgba(0,0,0,.4); }
+  .compare .handle{
+    position:absolute; top:50%; left:50%; width:38px; height:38px; margin:-19px 0 0 -19px;
+    border-radius:50%; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.35);
+    display:flex; align-items:center; justify-content:center; z-index:4; pointer-events:none;
+  }
+  .compare .tag{ position:absolute; top:10px; z-index:6; font-family:'Noto Serif TC',serif; font-size:11.5px; font-weight:700; color:#fff; background:rgba(59,42,32,0.55); padding:3px 10px; border-radius:999px; pointer-events:none; }
+  .compare .tag.old{ left:10px; }
+  .compare .tag.new{ right:10px; }
+  .gcard .meta{ padding:14px 16px 16px; }
+  .gcard .signature{ font-family:'Noto Serif TC',serif; font-weight:700; font-size:15px; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
+  .gcard .signature .chop{
+    width:22px;height:22px;border-radius:50%;border:1.2px solid var(--brick); color:var(--brick);
+    font-family:'Noto Serif TC',serif; font-size:10px; display:flex; align-items:center; justify-content:center; flex:none;
+  }
+  .gcard dl{ display:grid; grid-template-columns:auto 1fr; gap:5px 10px; font-size:12.5px; margin:8px 0 0; }
+  .gcard dt{ color:var(--ink-soft); }
+  .gcard dd{ margin:0; }
+  .gcard .story{ margin-top:10px; font-size:13px; line-height:1.75; color:var(--ink); background:var(--paper-deep); padding:10px 12px; border-radius:10px; }
+
+  .empty-state{ text-align:center; padding:60px 20px; color:var(--ink-soft); }
+  .empty-state .stamp-big{
+    width:64px; height:64px; border-radius:50%; border:1.5px dashed var(--gold);
+    margin:0 auto 18px; display:flex; align-items:center; justify-content:center;
+    font-family:'Noto Serif TC',serif; font-size:26px; color:var(--gold);
+  }
+  .empty-state p{ font-size:14.5px; line-height:1.8; }
+
+  .loadmore{ margin-top:6px; }
+
+  /* ---------- Lightbox ---------- */
+  .lightbox{ position:fixed; inset:0; background:rgba(20,14,10,0.94); z-index:300; display:flex; flex-direction:column; }
+  .lightbox .lb-top{ display:flex; justify-content:flex-end; padding:14px 16px; }
+  .lightbox .lb-top button{ background:none; border:none; color:#fff; font-size:26px; cursor:pointer; line-height:1; padding:6px; }
+  .lightbox .lb-body{ flex:1; overflow-y:auto; padding:0 18px 30px; }
+  .lightbox .compare{ border-radius:14px; padding-top:100%; }
+  .lightbox .meta{ color:#F4EDDC; }
+  .lightbox .meta .signature{ color:#F4EDDC; }
+  .lightbox dt{ color:#C9B79A; }
+  .lightbox dd{ color:#F4EDDC; }
+  .lightbox .story{ background:rgba(255,255,255,0.08); color:#F4EDDC; }
+  .lb-nav{ display:flex; gap:10px; margin-top:18px; }
+  .lb-nav button{ flex:1; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:999px; padding:12px; font-size:13.5px; cursor:pointer; }
+
+  /* ---------- Staff ---------- */
+  .staff-gate{ padding:60px 0; }
+  .staff-list{ display:flex; flex-direction:column; gap:10px; }
+  .srow{ background:var(--card); border-radius:12px; padding:13px 15px; display:flex; justify-content:space-between; align-items:center; gap:10px; box-shadow:var(--shadow); border:1px solid rgba(59,42,32,.08); }
+  .srow .info strong{ display:block; font-size:14px; }
+  .srow .info span{ font-size:12px; color:var(--ink-soft); }
+  .badge{ font-size:11px; padding:3px 9px; border-radius:999px; font-weight:700; flex:none; }
+  .badge.pending{ background:#EFE0BE; color:#7A5A15; }
+  .badge.public{ background:#DCEAD0; color:#3E5A2A; }
+  .badge.hidden{ background:#E9D7D2; color:#7A3A28; }
+  .staff-tabs{ display:flex; gap:8px; margin-bottom:16px; }
+  .staff-tabs button{ flex:1; padding:9px; border-radius:999px; border:1.5px solid var(--line); background:#fff; font-size:12.5px; cursor:pointer; }
+  .staff-tabs button.active{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .sdetail{ display:flex; flex-direction:column; gap:14px; }
+  .sdetail .review-photos img{ aspect-ratio:4/3; }
+  .sactions{ display:flex; gap:8px; }
+  .sactions button{ flex:1; padding:11px; border-radius:10px; border:none; font-size:13px; font-weight:700; cursor:pointer; }
+
+  footer.site-footer{ text-align:center; padding:36px 20px 20px; color:var(--ink-soft); font-size:12px; line-height:2; }
+
+  .spinner{ width:16px; height:16px; border-radius:50%; border:2px solid rgba(255,255,255,0.4); border-top-color:#fff; animation:spin .7s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn, .compare .after{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============ Config ============ */
+var STAFF_PASSWORD = "huwei2026"; // 工作人員審核密碼，可自行修改此處程式碼變更
+var PAGE_SIZE = 6;
+var MAX_DIM = 1100;
+var JPEG_QUALITY = 0.74;
+
+/* ============ Small helpers ============ */
+function $(sel, root){ return (root||document).querySelector(sel); }
+function el(tag, attrs, children){
+  var node = document.createElement(tag);
+  attrs = attrs || {};
+  Object.keys(attrs).forEach(function(k){
+    if(k === 'html'){ node.innerHTML = attrs[k]; }
+    else if(k === 'text'){ node.textContent = attrs[k]; }
+    else if(k.indexOf('on') === 0 && typeof attrs[k] === 'function'){ node.addEventListener(k.slice(2), attrs[k]); }
+    else if(k === 'class'){ node.className = attrs[k]; }
+    else { node.setAttribute(k, attrs[k]); }
+  });
+  (children||[]).forEach(function(c){ if(c) node.appendChild(c); });
+  return node;
+}
+function uid(){ return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,9); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function charCount(s){ return Array.from(s || '').length; }
+
+/* ============ Storage wrapper ============ */
+var storageAvailable = !!(window.storage && window.storage.get && window.storage.set);
+
+function sGet(key){
+  return window.storage.get(key, true).then(function(r){ return r ? r.value : null; }).catch(function(){ return null; });
+}
+function sSet(key, valueObj){
+  return window.storage.set(key, JSON.stringify(valueObj), true);
+}
+function getIndex(){
+  return sGet('submissions-index').then(function(v){
+    try{ return v ? JSON.parse(v) : []; }catch(e){ return []; }
+  });
+}
+function saveIndex(arr){ return sSet('submissions-index', arr); }
+function getSubmission(id){
+  return sGet('sub:' + id).then(function(v){
+    try{ return v ? JSON.parse(v) : null; }catch(e){ return null; }
+  });
+}
+function saveSubmission(sub){ return sSet('sub:' + sub.submission_id, sub); }
+
+/* ============ Image compression ============ */
+function fileToCompressedDataURL(file){
+  return new Promise(function(resolve, reject){
+    if(!file){ reject(new Error('no file')); return; }
+    if(!/^image\/(jpeg|jpg|png)$/i.test(file.type)){ reject(new Error('format')); return; }
+    if(file.size > 10 * 1024 * 1024){ reject(new Error('size')); return; }
+    var reader = new FileReader();
+    reader.onerror = function(){ reject(new Error('read')); };
+    reader.onload = function(){
+      var img = new Image();
+      img.onerror = function(){ reject(new Error('decode')); };
+      img.onload = function(){
+        var w = img.width, h = img.height;
+        var scale = Math.min(1, MAX_DIM / Math.max(w, h));
+        var cw = Math.max(1, Math.round(w * scale));
+        var ch = Math.max(1, Math.round(h * scale));
+        var canvas = document.createElement('canvas');
+        canvas.width = cw; canvas.height = ch;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, cw, ch);
+        try{
+          var dataUrl = canvas.toDataURL('image/jpeg', JPEG_QUALITY);
+          resolve({ dataUrl: dataUrl, width: cw, height: ch });
+        }catch(e){ reject(e); }
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ============ Icons ============ */
+var ICONS = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg>',
+  upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 15l3-4 2.5 3L16 10l3 5" /><circle cx="9" cy="9" r="1.3" fill="currentColor" stroke="none"/></svg>',
+  gallery: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>'
+};
+
+/* ============ App state / routing ============ */
+var state = {
+  route: 'home',
+  galleryPage: 1,
+  filterYear: '',
+  filterTime: '',
+  lightboxList: [],
+  lightboxIndex: 0,
+  staffAuthed: false,
+  staffTab: 'pending'
+};
+
+var uploadDraft = {
+  oldPhoto: null, // {dataUrl,width,height}
+  newPhoto: null,
+  old_photo_source: '',
+  new_photo_source: '',
+  signature: '',
+  old_year: '',
+  current_photo_time: '',
+  story: '',
+  consent: false
+};
+
+function navigate(route){
+  window.location.hash = route === 'home' ? '' : ('#' + route);
+}
+window.addEventListener('hashchange', function(){ route(); });
+
+function route(){
+  var h = window.location.hash.replace('#','');
+  if(h === 'upload') state.route = 'upload';
+  else if(h === 'gallery'){ state.route = 'gallery'; }
+  else if(h === 'staff'){ state.route = 'staff'; }
+  else state.route = 'home';
+  render();
+}
+
+/* ============ Shell ============ */
+function render(){
+  var app = $('#app');
+  app.innerHTML = '';
+
+  if(state.route !== 'staff'){
+    app.appendChild(renderTopbar());
+  }
+
+  var main = el('div', {class:'wrap'});
+  if(state.route === 'home') main.appendChild(renderHome());
+  else if(state.route === 'upload') main.appendChild(renderUpload());
+  else if(state.route === 'gallery') main.appendChild(renderGallery());
+  else if(state.route === 'staff') main.appendChild(renderStaff());
+  app.appendChild(main);
+
+  if(state.route === 'home' || state.route === 'gallery'){
+    app.appendChild(renderFooter());
+  }
+
+  if(state.route !== 'staff'){
+    app.appendChild(renderBottomNav());
+  }
+}
+
+function renderTopbar(){
+  return el('div', {class:'topbar'}, [
+    el('div', {class:'mark', text:'虎'}),
+    el('div', {class:'name'}, [
+      document.createTextNode('虎尾製造所'),
+      el('small', {text:'虎尾時光照相館'})
+    ])
+  ]);
+}
+
+function renderBottomNav(){
+  var items = [
+    {key:'home', label:'首頁', icon:ICONS.home},
+    {key:'upload', label:'上傳照片', icon:ICONS.upload},
+    {key:'gallery', label:'時光相簿', icon:ICONS.gallery}
+  ];
+  var nav = el('div', {class:'bottomnav'});
+  items.forEach(function(it){
+    var btn = el('button', {
+      class: state.route === it.key ? 'active' : '',
+      'aria-label': it.label,
+      html: it.icon + '<span>' + it.label + '</span>',
+      onclick: function(){ navigate(it.key); }
+    });
+    nav.appendChild(btn);
+  });
+  return nav;
+}
+
+function renderFooter(){
+  var f = el('footer', {class:'site-footer'});
+  var title = el('div', {text:'虎尾製造所｜今昔對比共創活動'});
+  var sub = el('div', {text:'如需撤下照片，請洽現場工作人員。'});
+  f.appendChild(title); f.appendChild(sub);
+  // hidden staff entry: 5 taps on the mark text, not advertised
+  var tapCount = 0, tapTimer = null;
+  title.style.cursor = 'default';
+  title.addEventListener('click', function(){
+    tapCount++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(function(){ tapCount = 0; }, 1400);
+    if(tapCount >= 5){ tapCount = 0; navigate('staff'); }
+  });
+  return f;
+}
+
+/* ============ Home ============ */
+function renderHome(){
+  var c = document.createDocumentFragment();
+  var hero = el('div', {class:'hero'});
+  hero.appendChild(el('div', {class:'eyebrow', text:'今昔對比共創活動'}));
+  hero.appendChild(el('h1', {text:'一張老照片，看見虎尾走過的時間'}));
+  hero.appendChild(el('p', {class:'sub', text:'你家裡是否也收藏著虎尾的老照片？上傳一張過去與一張現在的照片，補充照片出處、年代與拍攝時間，和大家一起拼出虎尾的城市記憶。'}));
+  var ctas = el('div', {class:'ctas'});
+  ctas.appendChild(el('button', {class:'btn btn-primary', text:'上傳我的照片', onclick:function(){ navigate('upload'); }}));
+  ctas.appendChild(el('button', {class:'btn btn-secondary', text:'看看大家的虎尾', onclick:function(){ navigate('gallery'); }}));
+  hero.appendChild(ctas);
+  c.appendChild(hero);
+
+  c.appendChild(el('div', {class:'filmband'}));
+
+  var stepsWrap = document.createDocumentFragment();
+  stepsWrap.appendChild(el('div', {class:'section-title', text:'參與方式'}));
+  var steps = el('div', {class:'steps'});
+  [
+    ['挑選照片','一張老照片，一張同地點或同主題的現代照片'],
+    ['填寫資料','署名、照片出處、年代與拍攝時間'],
+    ['送出審核','主辦單位確認資料無誤後上架'],
+    ['公開展示','出現在虎尾時光相簿，與大家一起回顧']
+  ].forEach(function(s, i){
+    steps.appendChild(el('div', {class:'step'}, [
+      el('div', {class:'num', text: String(i+1)}),
+      el('div', {class:'txt'}, [ el('strong', {text:s[0]}), el('span', {text:s[1]}) ])
+    ]));
+  });
+  var frag = document.createDocumentFragment();
+  frag.appendChild(hero);
+  frag.appendChild(el('div', {class:'filmband'}));
+  var stepsBlock = el('div', {}, [ el('div', {class:'section-title', text:'參與方式'}), steps ]);
+  frag.appendChild(stepsBlock);
+  return frag;
+}
+
+/* ============ Upload form ============ */
+function renderUpload(){
+  var frag = document.createDocumentFragment();
+  frag.appendChild(el('h2', {class:'serif', text:'上傳我的照片', style:'font-size:21px;margin:4px 0 4px;'}));
+  frag.appendChild(el('p', {class:'sub', style:'font-size:13.5px;color:var(--ink-soft);margin:0 0 22px;line-height:1.8;', text:'請上傳一張虎尾老照片與一張現代照片，並填寫相關資料。標示 * 的欄位為必填。'}));
+
+  var banner = el('div', {class:'banner err', id:'up-banner'});
+  frag.appendChild(banner);
+
+  var form = el('div', {class:'paper-card'});
+
+  // old photo
+  form.appendChild(buildPhotoField('old', '昔', '上傳老照片', '支援 JPG、PNG，單張不超過 10MB'));
+  // new photo
+  form.appendChild(buildPhotoField('new', '今', '上傳現代照片', '支援 JPG、PNG，單張不超過 10MB'));
+
+  form.appendChild(buildTextField({
+    id:'old_photo_source', label:'老照片出處', required:true, maxlen:50,
+    hint:'請說明這張老照片的來源或提供者。例如：家族相簿、國家文化記憶庫、虎尾鎮公所',
+    placeholder:'例如：家族相簿'
+  }));
+  form.appendChild(buildTextField({
+    id:'new_photo_source', label:'現代照片出處', required:true, maxlen:50,
+    hint:'請說明這張現代照片的來源或拍攝者。例如：本人拍攝、家人拍攝',
+    placeholder:'例如：本人拍攝'
+  }));
+  form.appendChild(buildTextField({
+    id:'signature', label:'署名', required:true, maxlen:20,
+    hint:'可填寫本名、暱稱或家族名稱。不會收集電話、電子郵件或其他個人聯絡資料。',
+    placeholder:'你想署名的稱呼'
+  }));
+  form.appendChild(buildTextField({
+    id:'old_year', label:'老照片年代', required:true, maxlen:30,
+    hint:'可填寫確切年份或約略年代。例如：1960年代、民國70年左右',
+    placeholder:'例如：1960年代'
+  }));
+  form.appendChild(buildTimeField());
+  form.appendChild(buildTextareaField({
+    id:'story', label:'照片故事', required:false, maxlen:100,
+    hint:'這張照片記錄了什麼故事？（選填）',
+    placeholder:'這張照片記錄了什麼故事？'
+  }));
+
+  var consentField = el('div', {class:'field', id:'field-consent'});
+  var row = el('label', {class:'checkbox-row', for:'consent'});
+  var cb = el('input', {type:'checkbox', id:'consent'});
+  cb.addEventListener('change', function(){ uploadDraft.consent = cb.checked; clearFieldError('consent'); });
+  row.appendChild(cb);
+  row.appendChild(el('p', {text:'我確認擁有照片使用權或已取得相關人員同意，並同意主辦單位將照片、署名、照片出處、年代、拍攝時間與文字公開展示於本次展覽網站及展場中。'}));
+  consentField.appendChild(row);
+  consentField.appendChild(el('div', {class:'error-text', text:'請先勾選同意公開展示，才能送出。'}));
+  form.appendChild(consentField);
+
+  var submitBtn = el('button', {class:'btn btn-primary', id:'submit-btn', text:'把記憶送進時光相簿'});
+  submitBtn.addEventListener('click', onPreviewClick);
+  form.appendChild(el('div', {style:'margin-top:6px;'}, [submitBtn]));
+
+  frag.appendChild(form);
+  return frag;
+}
+
+function buildPhotoField(kind, tagText, title, hintText){
+  var wrap = el('div', {class:'field'});
+  var slotId = 'photo-' + kind;
+  var container = el('div', {id:slotId});
+  container.appendChild(buildUploadSlot(kind, tagText, title, hintText));
+  wrap.appendChild(container);
+  wrap.appendChild(el('div', {class:'error-text', id:'err-' + kind, text:'請上傳這張照片。'}));
+  return wrap;
+}
+
+function buildUploadSlot(kind, tagText, title, hintText){
+  var slot = el('div', {class:'upload-slot'});
+  slot.appendChild(el('div', {class:'stamp', text: tagText}));
+  slot.appendChild(el('p', {class:'title', text: title}));
+  slot.appendChild(el('p', {text: hintText}));
+  var input = el('input', {type:'file', accept:'image/jpeg,image/png', 'aria-label': title});
+  input.addEventListener('change', function(e){ handlePhotoSelect(kind, tagText, e.target.files[0]); });
+  slot.appendChild(input);
+  return slot;
+}
+
+function handlePhotoSelect(kind, tagText, file){
+  if(!file) return;
+  var container = $('#photo-' + kind);
+  var errBox = $('#err-' + kind);
+  container.innerHTML = '';
+  var loading = el('div', {class:'upload-slot'}, [ el('p', {text:'圖片處理中…'}) ]);
+  container.appendChild(loading);
+  fileToCompressedDataURL(file).then(function(res){
+    if(kind === 'old') uploadDraft.oldPhoto = res; else uploadDraft.newPhoto = res;
+    container.innerHTML = '';
+    container.appendChild(buildPreview(kind, tagText, res.dataUrl));
+    if(errBox) errBox.parentElement.classList.remove('invalid');
+  }).catch(function(err){
+    container.innerHTML = '';
+    container.appendChild(buildUploadSlot(kind, tagText, kind === 'old' ? '上傳老照片' : '上傳現代照片', '支援 JPG、PNG，單張不超過 10MB'));
+    var msg = '圖片讀取失敗，請換一張照片再試一次。';
+    if(err && err.message === 'format') msg = '檔案格式不支援，請上傳 JPG 或 PNG 圖片。';
+    if(err && err.message === 'size') msg = '檔案超過 10MB，請壓縮後再上傳。';
+    showBanner(msg);
+  });
+}
+
+function buildPreview(kind, tagText, dataUrl){
+  var wrap = el('div', {class:'preview-wrap'});
+  wrap.appendChild(el('img', {src:dataUrl, alt:(kind === 'old' ? '使用者提供的虎尾老照片示意圖' : '使用者提供的虎尾現代照片示意圖')}));
+  wrap.appendChild(el('span', {class:'tag', text:tagText}));
+  var replaceBtn = el('button', {class:'replace', text:'重新選擇'});
+  var input = el('input', {type:'file', accept:'image/jpeg,image/png'});
+  input.addEventListener('change', function(e){ handlePhotoSelect(kind, tagText, e.target.files[0]); });
+  replaceBtn.appendChild(input);
+  wrap.appendChild(replaceBtn);
+  return wrap;
+}
+
+function buildTextField(opts){
+  var wrap = el('div', {class:'field', id:'field-' + opts.id});
+  var labelText = opts.label + (opts.required ? '' : '（選填）');
+  var label = el('label', {for:opts.id}, [document.createTextNode(labelText)]);
+  if(opts.required) label.appendChild(el('span', {class:'req', text:'*'}));
+  wrap.appendChild(label);
+  if(opts.hint) wrap.appendChild(el('div', {class:'hint', text:opts.hint}));
+  var input = el('input', {type:'text', id:opts.id, maxlength:String(opts.maxlen), placeholder:opts.placeholder||''});
+  input.addEventListener('input', function(){
+    uploadDraft[opts.id] = input.value;
+    counter.textContent = charCount(input.value) + ' / ' + opts.maxlen;
+    counter.classList.toggle('over', charCount(input.value) >= opts.maxlen);
+    clearFieldError(opts.id);
+  });
+  wrap.appendChild(input);
+  var counter = el('div', {class:'counter', text:'0 / ' + opts.maxlen});
+  wrap.appendChild(counter);
+  wrap.appendChild(el('div', {class:'error-text', text:'請填寫這個欄位。'}));
+  return wrap;
+}
+
+function buildTextareaField(opts){
+  var wrap = el('div', {class:'field', id:'field-' + opts.id});
+  var labelText = opts.label + (opts.required ? '' : '（選填）');
+  var label = el('label', {for:opts.id}, [document.createTextNode(labelText)]);
+  if(opts.required) label.appendChild(el('span', {class:'req', text:'*'}));
+  wrap.appendChild(label);
+  if(opts.hint) wrap.appendChild(el('div', {class:'hint', text:opts.hint}));
+  var ta = el('textarea', {id:opts.id, maxlength:String(opts.maxlen), placeholder:opts.placeholder||''});
+  ta.addEventListener('input', function(){
+    uploadDraft[opts.id] = ta.value;
+    counter.textContent = charCount(ta.value) + ' / ' + opts.maxlen;
+    counter.classList.toggle('over', charCount(ta.value) >= opts.maxlen);
+  });
+  wrap.appendChild(ta);
+  var counter = el('div', {class:'counter', text:'0 / ' + opts.maxlen});
+  wrap.appendChild(counter);
+  return wrap;
+}
+
+function buildTimeField(){
+  var wrap = el('div', {class:'field', id:'field-current_photo_time'});
+  var label = el('label', {for:'current_photo_time'}, [document.createTextNode('現代照片拍攝時間')]);
+  label.appendChild(el('span', {class:'req', text:'*'}));
+  wrap.appendChild(label);
+  wrap.appendChild(el('div', {class:'hint', text:'可選擇日期，或直接填寫約略時間。例如：2024年夏天、2025年3月、民國114年'}));
+  var row = el('div', {class:'date-row'});
+  var input = el('input', {type:'text', id:'current_photo_time', placeholder:'例如：2025年夏天'});
+  input.addEventListener('input', function(){ uploadDraft.current_photo_time = input.value; clearFieldError('current_photo_time'); });
+  var dateBtn = el('button', {class:'icon-btn', type:'button', 'aria-label':'選擇日期', html:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'});
+  var hiddenDate = el('input', {type:'date', class:'hidden-date', id:'current_photo_time_native'});
+  hiddenDate.addEventListener('change', function(){
+    if(hiddenDate.value){
+      var d = new Date(hiddenDate.value + 'T00:00:00');
+      var formatted = d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
+      input.value = formatted;
+      uploadDraft.current_photo_time = formatted;
+      clearFieldError('current_photo_time');
+    }
+  });
+  dateBtn.addEventListener('click', function(){ hiddenDate.showPicker ? hiddenDate.showPicker() : hiddenDate.click(); });
+  row.appendChild(input); row.appendChild(dateBtn); row.appendChild(hiddenDate);
+  wrap.appendChild(row);
+  wrap.appendChild(el('div', {class:'error-text', text:'請填寫或選擇現代照片拍攝時間。'}));
+  return wrap;
+}
+
+function clearFieldError(id){
+  var f = $('#field-' + id);
+  if(f) f.classList.remove('invalid');
+}
+function showBanner(msg, type){
+  var b = $('#up-banner');
+  if(!b) return;
+  b.textContent = msg;
+  b.className = 'banner show ' + (type || 'err');
+  b.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function hideBanner(){
+  var b = $('#up-banner');
+  if(b){ b.className = 'banner'; }
+}
+
+function validateDraft(){
+  var errors = [];
+  if(!uploadDraft.oldPhoto) errors.push('old');
+  if(!uploadDraft.newPhoto) errors.push('new');
+  if(!uploadDraft.old_photo_source || !uploadDraft.old_photo_source.trim()) errors.push('old_photo_source');
+  if(!uploadDraft.new_photo_source || !uploadDraft.new_photo_source.trim()) errors.push('new_photo_source');
+  if(!uploadDraft.signature || !uploadDraft.signature.trim()) errors.push('signature');
+  if(!uploadDraft.old_year || !uploadDraft.old_year.trim()) errors.push('old_year');
+  if(!uploadDraft.current_photo_time || !uploadDraft.current_photo_time.trim()) errors.push('current_photo_time');
+  if(!uploadDraft.consent) errors.push('consent');
+  return errors;
+}
+
+function onPreviewClick(){
+  hideBanner();
+  var errors = validateDraft();
+  if(errors.length){
+    errors.forEach(function(id){
+      var fieldId = (id === 'old' || id === 'new') ? id : id;
+      var f = (id === 'old' || id === 'new') ? $('#photo-' + id).parentElement : $('#field-' + id);
+      if(f) f.classList.add('invalid');
+    });
+    showBanner('請完成所有必填欄位後再送出。');
+    var firstBad = $('.field.invalid') || $('.upload-slot');
+    if(firstBad) firstBad.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  openPreviewModal();
+}
+
+function openPreviewModal(){
+  var backdrop = el('div', {class:'modal-backdrop'});
+  var sheet = el('div', {class:'modal-sheet'});
+  sheet.appendChild(el('h2', {class:'serif', text:'今昔對照預覽'}));
+  sheet.appendChild(el('p', {class:'sub', text:'請確認以下內容，送出後將交由主辦單位審核。'}));
+
+  var photos = el('div', {class:'review-photos'});
+  photos.appendChild(el('div', {class:'ph'}, [ el('img', {src:uploadDraft.oldPhoto.dataUrl, alt:'老照片預覽'}), el('span', {class:'tag', text:'昔'}) ]));
+  photos.appendChild(el('div', {class:'ph'}, [ el('img', {src:uploadDraft.newPhoto.dataUrl, alt:'現代照片預覽'}), el('span', {class:'tag', text:'今'}) ]));
+  sheet.appendChild(photos);
+
+  var list = el('ul', {class:'review-list'});
+  [
+    ['署名', uploadDraft.signature],
+    ['老照片出處', uploadDraft.old_photo_source],
+    ['現代照片出處', uploadDraft.new_photo_source],
+    ['老照片年代', uploadDraft.old_year],
+    ['現代照片拍攝時間', uploadDraft.current_photo_time],
+    ['照片故事', uploadDraft.story ? uploadDraft.story : '（未填寫）']
+  ].forEach(function(pair){
+    list.appendChild(el('li', {}, [ el('span', {text:pair[0]}), el('span', {text:pair[1]}) ]));
+  });
+  sheet.appendChild(list);
+
+  var actions = el('div', {class:'modal-actions'});
+  var confirmBtn = el('button', {class:'btn btn-primary', text:'確認送出'});
+  var backBtn = el('button', {class:'btn btn-ghost', text:'返回修改'});
+  backBtn.addEventListener('click', function(){ document.body.removeChild(backdrop); });
+  confirmBtn.addEventListener('click', function(){ submitDraft(confirmBtn, backdrop); });
+  actions.appendChild(confirmBtn); actions.appendChild(backBtn);
+  sheet.appendChild(actions);
+
+  backdrop.appendChild(sheet);
+  document.body.appendChild(backdrop);
+}
+
+var isSubmitting = false;
+function submitDraft(btn, backdrop){
+  if(isSubmitting) return;
+  isSubmitting = true;
+  btn.disabled = true;
+  var originalHtml = btn.innerHTML;
+  btn.innerHTML = '<span class="spinner"></span> 上傳中…';
+
+  var sub = {
+    submission_id: uid(),
+    submitted_at: new Date().toISOString(),
+    old_photo: uploadDraft.oldPhoto.dataUrl,
+    new_photo: uploadDraft.newPhoto.dataUrl,
+    old_photo_source: uploadDraft.old_photo_source.trim(),
+    new_photo_source: uploadDraft.new_photo_source.trim(),
+    signature: uploadDraft.signature.trim(),
+    old_year: uploadDraft.old_year.trim(),
+    current_photo_time: uploadDraft.current_photo_time.trim(),
+    story: (uploadDraft.story || '').trim(),
+    consent: true,
+    status: '待審核'
+  };
+
+  saveSubmission(sub).then(function(res){
+    if(!res) throw new Error('save-failed');
+    return getIndex();
+  }).then(function(idx){
+    idx.unshift({
+      id: sub.submission_id, status: sub.status, submitted_at: sub.submitted_at,
+      old_year: sub.old_year, current_photo_time: sub.current_photo_time
+    });
+    return saveIndex(idx);
+  }).then(function(res){
+    if(!res) throw new Error('index-failed');
+    document.body.removeChild(backdrop);
+    resetDraft();
+    navigate('home');
+    setTimeout(function(){
+      showSuccessNotice();
+    }, 30);
+  }).catch(function(){
+    btn.disabled = false;
+    btn.innerHTML = originalHtml;
+    isSubmitting = false;
+    var errNote = el('div', {class:'banner err show', style:'margin-top:14px;', text:'上傳失敗，請確認網路連線後再試一次。'});
+    var sheet = backdrop.querySelector('.modal-sheet');
+    var old = sheet.querySelector('.banner.err');
+    if(old) sheet.removeChild(old);
+    sheet.insertBefore(errNote, sheet.firstChild.nextSibling);
+  }).finally(function(){
+    isSubmitting = false;
+  });
+}
+
+function resetDraft(){
+  uploadDraft = { oldPhoto:null, newPhoto:null, old_photo_source:'', new_photo_source:'', signature:'', old_year:'', current_photo_time:'', story:'', consent:false };
+}
+
+function showSuccessNotice(){
+  var app = $('#app');
+  var toast = el('div', {
+    style:'position:fixed;left:16px;right:16px;bottom:96px;z-index:400;background:var(--ink);color:var(--paper);padding:16px 18px;border-radius:14px;font-size:13.5px;line-height:1.8;box-shadow:0 10px 30px rgba(0,0,0,.35);max-width:528px;margin:0 auto;',
+    text:'投稿成功！你的照片已送交審核，通過後就會出現在虎尾時光相簿中。謝謝你和我們一起保存虎尾的記憶。'
+  });
+  document.body.appendChild(toast);
+  setTimeout(function(){ if(toast.parentElement) document.body.removeChild(toast); }, 5200);
+}
+
+/* ============ Gallery ============ */
+var approvedCache = null;
+
+function renderGallery(){
+  var frag = document.createDocumentFragment();
+  frag.appendChild(el('h2', {class:'serif', text:'大家記憶裡的虎尾', style:'font-size:21px;margin:4px 0 16px;'}));
+
+  var filters = el('div', {class:'filters'});
+  var yearSel = el('select', {'aria-label':'依老照片年代篩選'});
+  yearSel.appendChild(el('option', {value:'', text:'所有老照片年代'}));
+  var timeSel = el('select', {'aria-label':'依現代照片拍攝時間篩選'});
+  timeSel.appendChild(el('option', {value:'', text:'所有拍攝時間'}));
+  filters.appendChild(yearSel);
+  filters.appendChild(timeSel);
+  frag.appendChild(filters);
+
+  var listWrap = el('div', {id:'gallery-list'});
+  listWrap.appendChild(el('div', {class:'empty-state'}, [el('p', {text:'載入中…'})]));
+  frag.appendChild(listWrap);
+
+  var moreWrap = el('div', {id:'gallery-more', class:'loadmore'});
+  frag.appendChild(moreWrap);
+
+  loadApproved().then(function(items){
+    populateFilterOptions(yearSel, timeSel, items);
+    yearSel.addEventListener('change', function(){ state.filterYear = yearSel.value; state.galleryPage = 1; drawGallery(); });
+    timeSel.addEventListener('change', function(){ state.filterTime = timeSel.value; state.galleryPage = 1; drawGallery(); });
+    drawGallery();
+  });
+
+  return frag;
+}
+
+function loadApproved(){
+  return getIndex().then(function(idx){
+    var approvedIds = idx.filter(function(e){ return e.status === '已公開'; })
+                          .sort(function(a,b){ return new Date(b.submitted_at) - new Date(a.submitted_at); });
+    return Promise.all(approvedIds.map(function(e){ return getSubmission(e.id); }))
+      .then(function(subs){
+        approvedCache = subs.filter(Boolean);
+        return approvedCache;
+      });
+  }).catch(function(){ approvedCache = []; return approvedCache; });
+}
+
+function populateFilterOptions(yearSel, timeSel, items){
+  var years = uniq(items.map(function(i){ return i.old_year; }).filter(Boolean));
+  var times = uniq(items.map(function(i){ return i.current_photo_time; }).filter(Boolean));
+  years.forEach(function(y){ yearSel.appendChild(el('option', {value:y, text:y})); });
+  times.forEach(function(t){ timeSel.appendChild(el('option', {value:t, text:t})); });
+}
+function uniq(arr){ return arr.filter(function(v,i){ return arr.indexOf(v) === i; }); }
+
+function getFilteredItems(){
+  if(!approvedCache) return [];
+  return approvedCache.filter(function(it){
+    if(state.filterYear && it.old_year !== state.filterYear) return false;
+    if(state.filterTime && it.current_photo_time !== state.filterTime) return false;
+    return true;
+  });
+}
+
+function drawGallery(){
+  var listWrap = $('#gallery-list');
+  var moreWrap = $('#gallery-more');
+  if(!listWrap) return;
+  var items = getFilteredItems();
+  listWrap.innerHTML = '';
+  moreWrap.innerHTML = '';
+
+  if(items.length === 0){
+    listWrap.appendChild(el('div', {class:'empty-state'}, [
+      el('div', {class:'stamp-big', text:'昔'}),
+      el('p', {text:'第一段虎尾記憶，等你來上傳。'})
+    ]));
+    return;
+  }
+
+  var visible = items.slice(0, state.galleryPage * PAGE_SIZE);
+  var grid = el('div', {class:'gallery-grid'});
+  visible.forEach(function(sub, i){
+    grid.appendChild(buildGalleryCard(sub, visible, i));
+  });
+  listWrap.appendChild(grid);
+
+  if(visible.length < items.length){
+    var moreBtn = el('button', {class:'btn btn-ghost', text:'載入更多'});
+    moreBtn.addEventListener('click', function(){ state.galleryPage++; drawGallery(); });
+    moreWrap.appendChild(moreBtn);
+  }
+}
+
+/* Shared drag state so we only ever attach ONE document-level listener,
+   no matter how many comparison cards exist (avoids leaking listeners
+   every time the gallery re-renders). Uses touch + mouse events, which
+   are more consistently supported across in-app browsers (LINE,
+   Messenger, etc.) than the newer Pointer Events API. */
+var compareDrag = { comp:null, percentFromX:null, apply:null };
+
+document.addEventListener('touchmove', function(e){
+  if(!compareDrag.comp || !e.touches || !e.touches[0]) return;
+  compareDrag.comp._dragged = true;
+  compareDrag.apply(compareDrag.percentFromX(e.touches[0].clientX));
+  e.preventDefault();
+}, {passive:false});
+document.addEventListener('touchend', function(){ compareDrag.comp = null; });
+document.addEventListener('touchcancel', function(){ compareDrag.comp = null; });
+document.addEventListener('mousemove', function(e){
+  if(!compareDrag.comp) return;
+  compareDrag.comp._dragged = true;
+  compareDrag.apply(compareDrag.percentFromX(e.clientX));
+});
+document.addEventListener('mouseup', function(){ compareDrag.comp = null; });
+
+function buildCompareEl(sub, sizeClass){
+  var comp = el('div', {
+    class:'compare', tabindex:'0', role:'slider',
+    'aria-label':'今昔對照滑桿，向左顯示老照片，向右顯示現代照片',
+    'aria-valuemin':'0', 'aria-valuemax':'100', 'aria-valuenow':'50'
+  });
+  comp.appendChild(el('img', {class:'before', src:sub.old_photo, alt:(sub.old_photo_source||'虎尾老照片') + '，' + (sub.old_year||'')}));
+  var afterWrap = el('div', {class:'after'});
+  afterWrap.appendChild(el('img', {src:sub.new_photo, alt:(sub.new_photo_source||'虎尾現代照片') + '，' + (sub.current_photo_time||'')}));
+  comp.appendChild(afterWrap);
+  comp.appendChild(el('span', {class:'tag old', text:'昔'}));
+  comp.appendChild(el('span', {class:'tag new', text:'今'}));
+  var divider = el('div', {class:'divider', style:'left:50%;'});
+  var handle = el('div', {class:'handle', html:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B2A20" stroke-width="2"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></svg>', style:'left:50%;'});
+  comp.appendChild(divider); comp.appendChild(handle);
+
+  comp._dragged = false;
+
+  function percentFromX(clientX){
+    var rect = comp.getBoundingClientRect();
+    if(!rect.width) return 50;
+    var pct = ((clientX - rect.left) / rect.width) * 100;
+    return Math.max(0, Math.min(100, pct));
+  }
+  function apply(pct){
+    updateCompare(comp, pct);
+    comp.setAttribute('aria-valuenow', String(Math.round(pct)));
+  }
+
+  comp.addEventListener('touchstart', function(e){
+    if(!e.touches || !e.touches[0]) return;
+    comp._dragged = false;
+    compareDrag.comp = comp;
+    compareDrag.percentFromX = percentFromX;
+    compareDrag.apply = apply;
+    apply(percentFromX(e.touches[0].clientX));
+  }, {passive:true});
+
+  comp.addEventListener('mousedown', function(e){
+    comp._dragged = false;
+    compareDrag.comp = comp;
+    compareDrag.percentFromX = percentFromX;
+    compareDrag.apply = apply;
+    apply(percentFromX(e.clientX));
+    e.preventDefault();
+  });
+
+  comp.addEventListener('click', function(e){
+    if(comp._dragged){ e.stopPropagation(); e.preventDefault(); comp._dragged = false; }
+  });
+  comp.addEventListener('keydown', function(e){
+    var cur = parseFloat(comp.getAttribute('aria-valuenow') || '50');
+    if(e.key === 'ArrowLeft'){ apply(Math.max(0, cur - 5)); e.preventDefault(); }
+    else if(e.key === 'ArrowRight'){ apply(Math.min(100, cur + 5)); e.preventDefault(); }
+  });
+
+  return comp;
+}
+function updateCompare(comp, val){
+  comp.querySelector('.after').style.clipPath = 'inset(0 0 0 ' + val + '%)';
+  comp.querySelector('.divider').style.left = val + '%';
+  comp.querySelector('.handle').style.left = val + '%';
+}
+
+
+function buildGalleryCard(sub, list, index){
+  var card = el('div', {class:'gcard'});
+  card.appendChild(buildCompareEl(sub));
+  var meta = el('div', {class:'meta'});
+  meta.appendChild(el('div', {class:'signature'}, [ el('span', {class:'chop', text:'署'}), document.createTextNode(sub.signature) ]));
+  var dl = el('dl');
+  dl.appendChild(el('dt', {text:'老照片出處'})); dl.appendChild(el('dd', {text:sub.old_photo_source}));
+  dl.appendChild(el('dt', {text:'現代照片出處'})); dl.appendChild(el('dd', {text:sub.new_photo_source}));
+  dl.appendChild(el('dt', {text:'老照片年代'})); dl.appendChild(el('dd', {text:sub.old_year}));
+  dl.appendChild(el('dt', {text:'拍攝時間'})); dl.appendChild(el('dd', {text:sub.current_photo_time}));
+  meta.appendChild(dl);
+  if(sub.story){ meta.appendChild(el('div', {class:'story', text:sub.story})); }
+  card.appendChild(meta);
+  card.addEventListener('click', function(){
+    openLightbox(list, index);
+  });
+  return card;
+}
+
+/* ============ Lightbox ============ */
+function openLightbox(list, index){
+  state.lightboxList = list;
+  state.lightboxIndex = index;
+  var box = el('div', {class:'lightbox', id:'lightbox'});
+  document.body.appendChild(box);
+  drawLightbox();
+}
+function closeLightbox(){
+  var box = $('#lightbox');
+  if(box) document.body.removeChild(box);
+}
+function drawLightbox(){
+  var box = $('#lightbox');
+  if(!box) return;
+  box.innerHTML = '';
+  var top = el('div', {class:'lb-top'});
+  var closeBtn = el('button', {'aria-label':'關閉', html:'&times;'});
+  closeBtn.addEventListener('click', closeLightbox);
+  top.appendChild(closeBtn);
+  box.appendChild(top);
+
+  var body = el('div', {class:'lb-body'});
+  var sub = state.lightboxList[state.lightboxIndex];
+  body.appendChild(buildCompareEl(sub));
+  var meta = el('div', {class:'meta', style:'margin-top:16px;'});
+  meta.appendChild(el('div', {class:'signature'}, [ el('span', {class:'chop', style:'border-color:#F4EDDC;color:#F4EDDC;', text:'署'}), document.createTextNode(sub.signature) ]));
+  var dl = el('dl');
+  dl.appendChild(el('dt', {text:'老照片出處'})); dl.appendChild(el('dd', {text:sub.old_photo_source}));
+  dl.appendChild(el('dt', {text:'現代照片出處'})); dl.appendChild(el('dd', {text:sub.new_photo_source}));
+  dl.appendChild(el('dt', {text:'老照片年代'})); dl.appendChild(el('dd', {text:sub.old_year}));
+  dl.appendChild(el('dt', {text:'拍攝時間'})); dl.appendChild(el('dd', {text:sub.current_photo_time}));
+  meta.appendChild(dl);
+  if(sub.story) meta.appendChild(el('div', {class:'story', text:sub.story}));
+  body.appendChild(meta);
+
+  var navRow = el('div', {class:'lb-nav'});
+  var prevBtn = el('button', {text:'上一組'});
+  var nextBtn = el('button', {text:'下一組'});
+  prevBtn.disabled = state.lightboxIndex <= 0;
+  nextBtn.disabled = state.lightboxIndex >= state.lightboxList.length - 1;
+  if(prevBtn.disabled) prevBtn.style.opacity = '.4';
+  if(nextBtn.disabled) nextBtn.style.opacity = '.4';
+  prevBtn.addEventListener('click', function(){ if(state.lightboxIndex > 0){ state.lightboxIndex--; drawLightbox(); } });
+  nextBtn.addEventListener('click', function(){ if(state.lightboxIndex < state.lightboxList.length - 1){ state.lightboxIndex++; drawLightbox(); } });
+  navRow.appendChild(prevBtn); navRow.appendChild(nextBtn);
+  body.appendChild(navRow);
+
+  box.appendChild(body);
+
+  document.addEventListener('keydown', lightboxKeyHandler);
+}
+function lightboxKeyHandler(e){
+  var box = $('#lightbox');
+  if(!box){ document.removeEventListener('keydown', lightboxKeyHandler); return; }
+  if(e.key === 'Escape') closeLightbox();
+}
+
+/* ============ Staff / review ============ */
+function renderStaff(){
+  var frag = document.createDocumentFragment();
+  if(!state.staffAuthed){
+    var gate = el('div', {class:'staff-gate'});
+    gate.appendChild(el('h2', {class:'serif', text:'工作人員審核', style:'font-size:20px;margin-bottom:6px;'}));
+    gate.appendChild(el('p', {class:'sub', style:'color:var(--ink-soft);font-size:13px;margin-bottom:20px;', text:'此頁面僅供主辦單位審核投稿使用。'}));
+    var pw = el('input', {type:'text', placeholder:'請輸入審核密碼', style:'width:100%;border:1.5px solid var(--line);border-radius:10px;padding:13px;font-size:15px;margin-bottom:14px;'});
+    var errMsg = el('div', {class:'error-text', style:'display:none;margin-bottom:10px;', text:'密碼錯誤，請再試一次。'});
+    gate.appendChild(pw);
+    gate.appendChild(errMsg);
+    var enterBtn = el('button', {class:'btn btn-primary', text:'進入審核頁'});
+    enterBtn.addEventListener('click', function(){
+      if(pw.value === STAFF_PASSWORD){ state.staffAuthed = true; render(); }
+      else { errMsg.style.display = 'block'; }
+    });
+    gate.appendChild(enterBtn);
+    gate.appendChild(el('button', {class:'btn btn-ghost', text:'返回首頁', style:'margin-top:10px;', onclick:function(){ navigate('home'); }}));
+    frag.appendChild(gate);
+    return frag;
+  }
+
+  frag.appendChild(el('h2', {class:'serif', text:'投稿審核', style:'font-size:20px;margin:14px 0 16px;'}));
+  var tabs = el('div', {class:'staff-tabs'});
+  [['pending','待審核'],['public','已公開'],['hidden','不公開']].forEach(function(t){
+    var b = el('button', {class: state.staffTab === t[0] ? 'active' : '', text:t[1]});
+    b.addEventListener('click', function(){ state.staffTab = t[0]; render(); });
+    tabs.appendChild(b);
+  });
+  frag.appendChild(tabs);
+
+  var listWrap = el('div', {class:'staff-list', id:'staff-list'});
+  listWrap.appendChild(el('p', {style:'color:var(--ink-soft);font-size:13px;', text:'載入中…'}));
+  frag.appendChild(listWrap);
+
+  var statusMap = {pending:'待審核', public:'已公開', hidden:'不公開'};
+  getIndex().then(function(idx){
+    var filtered = idx.filter(function(e){ return e.status === statusMap[state.staffTab]; })
+                       .sort(function(a,b){ return new Date(b.submitted_at) - new Date(a.submitted_at); });
+    listWrap.innerHTML = '';
+    if(filtered.length === 0){
+      listWrap.appendChild(el('p', {style:'color:var(--ink-soft);font-size:13px;', text:'目前沒有這個分類的投稿。'}));
+      return;
+    }
+    filtered.forEach(function(e){
+      var row = el('div', {class:'srow'});
+      var badgeClass = state.staffTab === 'pending' ? 'pending' : (state.staffTab === 'public' ? 'public' : 'hidden');
+      row.appendChild(el('div', {class:'info'}, [
+        el('strong', {text: e.old_year + ' → ' + e.current_photo_time}),
+        el('span', {text: new Date(e.submitted_at).toLocaleString('zh-TW')})
+      ]));
+      row.appendChild(el('span', {class:'badge ' + badgeClass, text: e.status}));
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', function(){ openStaffDetail(e.id); });
+      listWrap.appendChild(row);
+    });
+  });
+
+  frag.appendChild(el('button', {class:'btn btn-ghost', text:'返回首頁', style:'margin-top:22px;', onclick:function(){ state.staffAuthed = false; navigate('home'); }}));
+
+  return frag;
+}
+
+function openStaffDetail(id){
+  getSubmission(id).then(function(sub){
+    if(!sub) return;
+    var backdrop = el('div', {class:'modal-backdrop'});
+    var sheet = el('div', {class:'modal-sheet sdetail'});
+    sheet.appendChild(el('h2', {class:'serif', text:'投稿內容', style:'font-size:18px;margin-bottom:2px;'}));
+    var photos = el('div', {class:'review-photos'});
+    photos.appendChild(el('div', {class:'ph'}, [ el('img', {src:sub.old_photo, alt:'老照片'}), el('span', {class:'tag', text:'昔'}) ]));
+    photos.appendChild(el('div', {class:'ph'}, [ el('img', {src:sub.new_photo, alt:'現代照片'}), el('span', {class:'tag', text:'今'}) ]));
+    sheet.appendChild(photos);
+    var list = el('ul', {class:'review-list'});
+    [['署名', sub.signature],['老照片出處', sub.old_photo_source],['現代照片出處', sub.new_photo_source],
+     ['老照片年代', sub.old_year],['拍攝時間', sub.current_photo_time],['照片故事', sub.story || '（未填寫）'],
+     ['目前狀態', sub.status]].forEach(function(p){
+      list.appendChild(el('li', {}, [ el('span', {text:p[0]}), el('span', {text:p[1]}) ]));
+    });
+    sheet.appendChild(list);
+
+    var actions = el('div', {class:'sactions'});
+    var publicBtn = el('button', {text:'設為已公開', style:'background:#DCEAD0;color:#3E5A2A;'});
+    var hiddenBtn = el('button', {text:'設為不公開', style:'background:#E9D7D2;color:#7A3A28;'});
+    publicBtn.addEventListener('click', function(){ updateStatus(sub, '已公開', backdrop); });
+    hiddenBtn.addEventListener('click', function(){ updateStatus(sub, '不公開', backdrop); });
+    actions.appendChild(publicBtn); actions.appendChild(hiddenBtn);
+    sheet.appendChild(actions);
+    sheet.appendChild(el('button', {class:'btn btn-ghost', text:'關閉', style:'margin-top:12px;', onclick:function(){ document.body.removeChild(backdrop); }}));
+
+    backdrop.appendChild(sheet);
+    document.body.appendChild(backdrop);
+  });
+}
+
+function updateStatus(sub, newStatus, backdrop){
+  sub.status = newStatus;
+  saveSubmission(sub).then(function(){ return getIndex(); }).then(function(idx){
+    var found = idx.find(function(e){ return e.id === sub.submission_id; });
+    if(found) found.status = newStatus;
+    return saveIndex(idx);
+  }).then(function(){
+    document.body.removeChild(backdrop);
+    render();
+  });
+}
+
+/* ============ Boot ============ */
+function boot(){
+  if(!storageAvailable){
+    document.body.innerHTML = '<div style="padding:40px 24px;font-family:sans-serif;line-height:1.8;">此環境不支援資料儲存功能，請改用支援 window.storage 的環境開啟本頁面。</div>';
+    return;
+  }
+  route();
+}
+boot();
+
+})();
+</script>
+</body>
+</html>
