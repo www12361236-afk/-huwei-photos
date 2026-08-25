@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 <style>
   :root{
     --paper:#F4EDDC;
@@ -337,6 +340,27 @@ var PAGE_SIZE = 6;
 var MAX_DIM = 1100;
 var JPEG_QUALITY = 0.74;
 
+/* ============ Firebase Config ============ */
+var firebaseConfig = {
+  apiKey: "AIzaSyDuVIWBZSdoYpYrdqW_aX0LM7pAellkYAY",
+  authDomain: "huwei-photos.firebaseapp.com",
+  projectId: "huwei-photos",
+  storageBucket: "huwei-photos.firebasestorage.app",
+  messagingSenderId: "941172743895",
+  appId: "1:941172743895:web:05a078f936462c36fb9a92"
+};
+var firebaseReady = false;
+var db = null;
+var storageRef = null;
+try{
+  if(window.firebase){
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    storageRef = firebase.storage();
+    firebaseReady = true;
+  }
+}catch(e){ firebaseReady = false; }
+
 /* ============ Small helpers ============ */
 function $(sel, root){ return (root||document).querySelector(sel); }
 function el(tag, attrs, children){
@@ -356,27 +380,60 @@ function uid(){ return Date.now().toString(36) + '-' + Math.random().toString(36
 function esc(s){ return (s||'').replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 function charCount(s){ return Array.from(s || '').length; }
 
-/* ============ Storage wrapper ============ */
-var storageAvailable = !!(window.storage && window.storage.get && window.storage.set);
+/* ============ Storage wrapper (Firebase Firestore + Storage) ============ */
+var storageAvailable = firebaseReady;
 
-function sGet(key){
-  return window.storage.get(key, true).then(function(r){ return r ? r.value : null; }).catch(function(){ return null; });
-}
-function sSet(key, valueObj){
-  return window.storage.set(key, JSON.stringify(valueObj), true);
-}
 function getIndex(){
-  return sGet('submissions-index').then(function(v){
-    try{ return v ? JSON.parse(v) : []; }catch(e){ return []; }
-  });
+  if(!firebaseReady) return Promise.resolve([]);
+  return db.collection('submissions').orderBy('submitted_at', 'desc').get().then(function(snap){
+    var arr = [];
+    snap.forEach(function(doc){
+      var d = doc.data();
+      arr.push({
+        id: doc.id, status: d.status, submitted_at: d.submitted_at,
+        old_year: d.old_year, current_photo_time: d.current_photo_time
+      });
+    });
+    return arr;
+  }).catch(function(){ return []; });
 }
-function saveIndex(arr){ return sSet('submissions-index', arr); }
 function getSubmission(id){
-  return sGet('sub:' + id).then(function(v){
-    try{ return v ? JSON.parse(v) : null; }catch(e){ return null; }
-  });
+  if(!firebaseReady) return Promise.resolve(null);
+  return db.collection('submissions').doc(id).get().then(function(doc){
+    if(!doc.exists) return null;
+    var d = doc.data();
+    d.submission_id = doc.id;
+    return d;
+  }).catch(function(){ return null; });
 }
-function saveSubmission(sub){ return sSet('sub:' + sub.submission_id, sub); }
+function uploadPhotoToStorage(id, kind, dataUrl){
+  var ref = storageRef.ref().child('submissions/' + id + '/' + kind + '.jpg');
+  return ref.putString(dataUrl, 'data_url').then(function(){ return ref.getDownloadURL(); });
+}
+function saveSubmission(sub){
+  if(!firebaseReady) return Promise.resolve(null);
+  var id = sub.submission_id;
+  var isNewPhoto = /^data:/.test(sub.old_photo || '');
+  var isNewPhoto2 = /^data:/.test(sub.new_photo || '');
+  var uploadOld = isNewPhoto ? uploadPhotoToStorage(id, 'old', sub.old_photo) : Promise.resolve(sub.old_photo);
+  var uploadNew = isNewPhoto2 ? uploadPhotoToStorage(id, 'new', sub.new_photo) : Promise.resolve(sub.new_photo);
+  return Promise.all([uploadOld, uploadNew]).then(function(urls){
+    var docData = {
+      submitted_at: sub.submitted_at,
+      old_photo: urls[0],
+      new_photo: urls[1],
+      old_photo_source: sub.old_photo_source,
+      new_photo_source: sub.new_photo_source,
+      signature: sub.signature,
+      old_year: sub.old_year,
+      current_photo_time: sub.current_photo_time,
+      story: sub.story || '',
+      consent: !!sub.consent,
+      status: sub.status
+    };
+    return db.collection('submissions').doc(id).set(docData, {merge:true}).then(function(){ return true; });
+  }).catch(function(){ return null; });
+}
 
 /* ============ Image compression ============ */
 function fileToCompressedDataURL(file){
@@ -852,15 +909,6 @@ function submitDraft(btn, backdrop){
 
   saveSubmission(sub).then(function(res){
     if(!res) throw new Error('save-failed');
-    return getIndex();
-  }).then(function(idx){
-    idx.unshift({
-      id: sub.submission_id, status: sub.status, submitted_at: sub.submitted_at,
-      old_year: sub.old_year, current_photo_time: sub.current_photo_time
-    });
-    return saveIndex(idx);
-  }).then(function(res){
-    if(!res) throw new Error('index-failed');
     document.body.removeChild(backdrop);
     resetDraft();
     navigate('home');
@@ -1247,12 +1295,11 @@ function openStaffDetail(id){
 }
 
 function updateStatus(sub, newStatus, backdrop){
-  sub.status = newStatus;
-  saveSubmission(sub).then(function(){ return getIndex(); }).then(function(idx){
-    var found = idx.find(function(e){ return e.id === sub.submission_id; });
-    if(found) found.status = newStatus;
-    return saveIndex(idx);
-  }).then(function(){
+  if(!firebaseReady) return;
+  db.collection('submissions').doc(sub.submission_id).update({status: newStatus}).then(function(){
+    document.body.removeChild(backdrop);
+    render();
+  }).catch(function(){
     document.body.removeChild(backdrop);
     render();
   });
@@ -1261,7 +1308,7 @@ function updateStatus(sub, newStatus, backdrop){
 /* ============ Boot ============ */
 function boot(){
   if(!storageAvailable){
-    document.body.innerHTML = '<div style="padding:40px 24px;font-family:sans-serif;line-height:1.8;">此環境不支援資料儲存功能，請改用支援 window.storage 的環境開啟本頁面。</div>';
+    document.body.innerHTML = '<div style="padding:40px 24px;font-family:sans-serif;line-height:1.8;">資料庫連線失敗，請確認網路連線，或稍後再試一次。</div>';
     return;
   }
   route();
