@@ -359,7 +359,7 @@ try{
     storageRef = firebase.storage();
     firebaseReady = true;
   }
-}catch(e){ firebaseReady = false; }
+}catch(e){ firebaseReady = false; console.error('[firebase init 失敗]', e); }
 
 /* ============ Small helpers ============ */
 function $(sel, root){ return (root||document).querySelector(sel); }
@@ -395,7 +395,7 @@ function getIndex(){
       });
     });
     return arr;
-  }).catch(function(){ return []; });
+  }).catch(function(e){ console.error('[getIndex 失敗]', e); return []; });
 }
 function getSubmission(id){
   if(!firebaseReady) return Promise.resolve(null);
@@ -404,7 +404,7 @@ function getSubmission(id){
     var d = doc.data();
     d.submission_id = doc.id;
     return d;
-  }).catch(function(){ return null; });
+  }).catch(function(e){ console.error('[getSubmission 失敗]', e); return null; });
 }
 function uploadPhotoToStorage(id, kind, dataUrl){
   var ref = storageRef.ref().child('submissions/' + id + '/' + kind + '.jpg');
@@ -432,7 +432,7 @@ function saveSubmission(sub){
       status: sub.status
     };
     return db.collection('submissions').doc(id).set(docData, {merge:true}).then(function(){ return true; });
-  }).catch(function(){ return null; });
+  }).catch(function(e){ console.error('[saveSubmission 失敗，可能是上傳照片或寫入資料庫時出錯]', e); return null; });
 }
 
 /* ============ Image compression ============ */
